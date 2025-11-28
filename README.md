@@ -2,6 +2,30 @@
 
 A simple Jekyll website for listing academic talks. Update via YAML, host on GitHub Pages.
 
+## Managing Talks
+
+Add to `_data/talks.yml`:
+
+```yaml
+- title: "Talk Title"
+  speaker: "Speaker Name"
+  date: "2025-12-01"         # YYYY-MM-DD format required
+  time: "14:00-15:00"        # Use hyphen for time range, spaces optional
+  room: "K5.10"
+  abstract: "Description here"  # Supports markdown formatting
+  video_link: "https://..."  # Optional: Teams/Zoom meeting link
+  person_url: "https://..."  # Optional: Speaker homepage
+  paper_url: "https://..."   # Optional: Related paper
+```
+
+**All fields except `title` and `speaker` are optional.** Abstracts support markdown (links, **bold**, *italic*, etc.).
+
+## Calendar Feature
+
+Each talk has an "Add to Calendar" button that generates an `*.ics` file for that specific talk.
+
+**To disable:** Remove the button element from [index.html](index.html:61-63)
+
 ## Setup for GitHub Pages
 
 1. **Edit the data files**
@@ -27,30 +51,6 @@ bundle exec jekyll serve
 ```
 
 Visit `http://localhost:4000`
-
-## Managing Talks
-
-Add to `_data/talks.yml`:
-
-```yaml
-- title: "Talk Title"
-  speaker: "Speaker Name"
-  date: "2025-12-01"         # YYYY-MM-DD format required
-  time: "14:00-15:00"        # Use hyphen for time range, spaces optional
-  room: "K5.10"
-  abstract: "Description here"  # Supports markdown formatting
-  video_link: "https://..."  # Optional: Teams/Zoom meeting link
-  person_url: "https://..."  # Optional: Speaker homepage
-  paper_url: "https://..."   # Optional: Related paper
-```
-
-**All fields except `title` and `speaker` are optional.** Abstracts support markdown (links, **bold**, *italic*, etc.).
-
-## Calendar Feature
-
-Each talk has an "Add to Calendar" button that generates an `.ics` file for that specific talk.
-
-**To disable:** Remove the button element from [index.html](index.html:61-63)
 
 ## Customization
 
