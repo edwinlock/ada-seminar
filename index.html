@@ -1,0 +1,90 @@
+---
+layout: default
+---
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{{ site.data.metadata.seminar_name }}</title>
+    <link rel="stylesheet" href="{{ '/assets/css/style.css' | relative_url }}">
+    <link href="https://fonts.googleapis.com/css2?family=Libre+Baskerville:ital,wght@0,400;0,700;1,400&family=Source+Sans+Pro:wght@300;400;600&display=swap" rel="stylesheet">
+    <script src="{{ '/assets/js/calendar.js' | relative_url }}"></script>
+</head>
+<body>
+    <div class="container">
+        <!-- General Info Section -->
+        <section id="general-info" class="info-section">
+            <h1 class="seminar-title">{{ site.data.metadata.seminar_name }}</h1>
+            <p class="department">{{ site.data.metadata.department }}</p>
+            <p class="university">{{ site.data.metadata.university }}</p>
+            <div class="description">{{ site.data.metadata.description | markdownify }}</div>
+        </section>
+
+        <hr class="divider">
+
+        <!-- Talks Section -->
+        <section id="talks" class="talks-section">
+            <h2>Upcoming Talks</h2>
+
+            {% assign sorted_talks = site.data.talks | sort: 'date' | reverse %}
+
+            {% if sorted_talks.size > 0 %}
+                {% for talk in sorted_talks %}
+                <article class="talk">
+                    <div class="talk-header">
+                        <h3 class="talk-title">{{ talk.title }}</h3>
+                        <div class="talk-meta">
+                            <span class="speaker">{{ talk.speaker }}</span>
+                            {% if talk.date %}
+                            <span class="separator">•</span>
+                            <span class="date">{{ talk.date | date: "%d %B %Y" }}</span>
+                            {% endif %}
+                            {% if talk.time %}
+                            <span class="separator">•</span>
+                            <span class="time">{{ talk.time }}</span>
+                            {% endif %}
+                            {% if talk.room %}
+                            <span class="separator">•</span>
+                            <span class="room">{{ talk.room }}</span>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="talk-abstract">
+                        {% if talk.abstract %}
+                        {{ talk.abstract | markdownify }}
+                        {% else %}
+                        <p class="abstract-coming-soon">Abstract coming soon</p>
+                        {% endif %}
+                    </div>
+                    {% if talk.video_link or talk.person_url or talk.paper_url %}
+                    <div class="talk-links">
+                        {% if talk.video_link %}
+                        <a href="{{ talk.video_link }}" class="talk-link" target="_blank">Meeting Link</a>
+                        {% endif %}
+                        {% if talk.person_url %}
+                        <a href="{{ talk.person_url }}" class="talk-link" target="_blank">Speaker Page</a>
+                        {% endif %}
+                        {% if talk.paper_url %}
+                        <a href="{{ talk.paper_url }}" class="talk-link" target="_blank">Paper</a>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    <button class="btn-add-calendar" onclick="downloadCalendar('{{ talk.title | escape }}', '{{ talk.speaker | escape }}', '{{ talk.date }}', '{{ talk.time }}', '{{ talk.room }}', '{{ talk.abstract | escape }}')">
+                        Add to Calendar
+                    </button>
+                </article>
+                {% endfor %}
+            {% else %}
+                <p class="no-talks">No talks scheduled at the moment. Check back soon!</p>
+            {% endif %}
+        </section>
+
+        <footer class="footer">
+            <p class="contact">Contact <a href="mailto:{{ site.data.metadata.contact_email }}">{{ site.data.metadata.contact_email }}</a> in case of issues.</p>
+            <p>&copy; {{ site.data.metadata.copyright_year }} {{ site.data.metadata.copyright_holder }}. All rights reserved.</p>
+        </footer>
+    </div>
+</body>
+</html>
